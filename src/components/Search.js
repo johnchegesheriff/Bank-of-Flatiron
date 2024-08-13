@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 
 function Search({onSearch}) {
-  const [isSearch, setSearch] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
   const handleSearch = (e) => {
-    onSearch(e.target.value);
-    
+    const searchValue = e.target.value;
+    setInputValue(searchValue); 
+
+    if (onSearch && typeof onSearch === "function") {
+      onSearch(searchValue);
+    } else {
+      console.error("onSearch is not a function");
+    }
   };
 
   return (
@@ -13,6 +19,7 @@ function Search({onSearch}) {
       <input
         type="text"
         placeholder="Search your Recent Transactions"
+        value={inputValue}
         onChange={handleSearch}
       />
       <i className="circular search link icon"></i>
